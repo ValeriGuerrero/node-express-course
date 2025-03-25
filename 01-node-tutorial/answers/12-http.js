@@ -4,7 +4,7 @@ const querystring = require('querystring');
 let currentColor = "";
 
 const server = http.createServer((req, res) => {
-    if (req.method === 'POST') {
+    if (req.method === 'POST' && req.url === "/") {
         let body = '';
 
         req.on('data', chunk => {
@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
 
         req.on('end', () => {
             const formData = querystring.parse(body);
-            currentColor = formData.color.toLowerCase();
+            currentColor = formData.color ? formData.color.toLowerCase() : "";
 
             if (currentColor === "red") {
                 currentColor = "red";
@@ -48,7 +48,8 @@ const server = http.createServer((req, res) => {
                 </html>
             `);
         });
-    } else {
+    }
+    if (req.method === 'GET' && req.url === "/") {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(`
         <html>
@@ -66,6 +67,19 @@ const server = http.createServer((req, res) => {
                 </select>
                 <button type="submit">Change Color</button>
             </form>
+        </body>
+        </html>
+        `);
+    }
+    if (req.url !== "/" && req.method === 'GET') {
+        res.writeHead(404, { 'Content-Type': 'text/html' });
+        res.end(`
+        <html>
+        <head><title>404 Not Found</title></head>
+        <body style="text-align: center; color: red;">
+            <h1>Oops! 404 - Page Not Found</h1>
+            <p>The page you are looking for does not exist.</p>
+            <a href="/">Go back to the home page</a>
         </body>
         </html>
         `);

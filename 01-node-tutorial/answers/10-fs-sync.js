@@ -6,18 +6,15 @@ console.log('Start writing to file...');
 writeFileSync('./temporary/fileA.txt', 'Line 1: This is the first line.\n');
 
 console.log('First line written');
-
-// Second write operation (appends)
-writeFileSync('./temporary/fileA.txt', 'Line 2: This is the second line.\n', { flag: 'a' });
+~
+    writeFileSync('./temporary/fileA.txt', 'Line 2: This is the second line.\n', { flag: 'a' });
 
 console.log('Second line written');
 
-// Third write operation (appends)
 writeFileSync('./temporary/fileA.txt', 'Line 3: This is the third line.\n', { flag: 'a' });
 
 console.log('Third line written');
 
-// Read file contents
 const fileContents = readFileSync('./temporary/fileA.txt', 'utf8');
 
 console.log('File Contents:');
