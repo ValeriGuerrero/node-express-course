@@ -21,7 +21,8 @@ const getBody = (req, callback) => {
 };
 
 // here, you could declare one or more variables to store what comes back from the form.
-let item = "Enter something below.";
+let item = "Enter a number between 1 and 100";
+let num = 99
 
 // here, you can change the form below to modify the input fields and what is displayed.
 // This is just ordinary html with string interpolation.
@@ -42,12 +43,18 @@ const server = http.createServer((req, res) => {
   console.log("req.url is ", req.url);
   if (req.method === "POST") {
     getBody(req, (body) => {
-      console.log("The body of the post is ", body);
+      const guess = Number(body["item"]);
       // here, you can add your own logic
-      if (body["item"]) {
-        item = body["item"];
+      if (guess === num) {
+        item = "Correct!"
+        //item = body["item"];
+      } else if (guess < num) {
+        item = "Wrong your guess is too low.";
+      }
+      else if (guess > num) {
+        item = "Your guess is too high.";
       } else {
-        item = "Nothing was entered.";
+        item = "Invalid input.";
       }
       // Your code changes would end here
       res.writeHead(303, {
